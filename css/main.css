@@ -495,6 +495,92 @@ label {
     gap: var(--spacing-md);
 }
 
+/* Audio Controls */
+.audio-control-panel {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--color-bg-medium);
+    border: 2px solid var(--color-primary);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-md);
+    z-index: var(--z-dropdown);
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    transition: all var(--transition-fast);
+}
+
+.audio-toggle-btn {
+    background: none;
+    border: none;
+    font-size: var(--font-size-2xl);
+    cursor: pointer;
+    padding: var(--spacing-xs);
+    transition: transform var(--transition-fast);
+}
+
+.audio-toggle-btn:hover {
+    transform: scale(1.1);
+}
+
+.audio-volume-section {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.volume-slider {
+    width: 100px;
+    height: 6px;
+    border-radius: 5px;
+    background: var(--color-bg-dark);
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.volume-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    border: none;
+}
+
+#volume-percentage {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    min-width: 40px;
+}
+
+.audio-expand-btn {
+    background: none;
+    border: none;
+    color: var(--color-primary);
+    cursor: pointer;
+    font-size: var(--font-size-sm);
+    padding: var(--spacing-xs);
+    transition: transform var(--transition-fast);
+}
+
+.audio-expand-btn:hover {
+    transform: scale(1.1);
+}
+
 /* Print Styles */
 @media print {
     body {
@@ -503,6 +589,10 @@ label {
     }
 
     .screen:not(.active) {
+        display: none;
+    }
+
+    .audio-control-panel {
         display: none;
     }
 }

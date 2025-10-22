@@ -1502,10 +1502,89 @@ function loadPlaygroundHistory() {
     });
 }
 
+// Audio Control Functions
+function initAudioControls() {
+    log.info('[MAIN] Initializing audio controls');
+
+    const audio = document.getElementById('background-music');
+    const toggleBtn = document.getElementById('audio-toggle');
+    const audioIcon = document.getElementById('audio-icon');
+    const volumeSlider = document.getElementById('volume-slider');
+    const volumePercentage = document.getElementById('volume-percentage');
+    const expandBtn = document.getElementById('audio-expand');
+    const volumeSection = document.getElementById('audio-volume-section');
+
+    if (!audio) {
+        log.warn('[MAIN] Audio element not found');
+        return;
+    }
+
+    // Load saved settings
+    const savedVolume = storage.get('audio_volume', 50);
+
+    audio.volume = savedVolume / 100;
+    if (volumeSlider) volumeSlider.value = savedVolume;
+    if (volumePercentage) volumePercentage.textContent = `${savedVolume}%`;
+
+    // Toggle music on/off
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play().then(() => {
+                    audioIcon.textContent = '🔊';
+                    storage.set('audio_muted', false);
+                    log.info('[MAIN] Music started');
+                    trackEvent('Audio', 'Play', state.profile?.username);
+                }).catch(err => {
+                    log.error('[MAIN] Failed to play audio:', err);
+                    showNotification('Unable to play music. Try clicking again.', 'warning');
+                });
+            } else {
+                audio.pause();
+                audioIcon.textContent = '🔇';
+                storage.set('audio_muted', true);
+                log.info('[MAIN] Music paused');
+                trackEvent('Audio', 'Pause', state.profile?.username);
+            }
+        });
+    }
+
+    // Volume control
+    if (volumeSlider) {
+        volumeSlider.addEventListener('input', (e) => {
+            const volume = e.target.value;
+            audio.volume = volume / 100;
+            volumePercentage.textContent = `${volume}%`;
+            storage.set('audio_volume', volume);
+            log.debug('[MAIN] Volume changed to:', volume);
+        });
+    }
+
+    // Expand/collapse controls
+    if (expandBtn) {
+        expandBtn.addEventListener('click', () => {
+            if (volumeSection.classList.contains('hidden')) {
+                volumeSection.classList.remove('hidden');
+                expandBtn.textContent = '▲';
+                expandBtn.title = 'Hide Controls';
+            } else {
+                volumeSection.classList.add('hidden');
+                expandBtn.textContent = '▼';
+                expandBtn.title = 'Show Controls';
+            }
+        });
+    }
+}
+
 // Start the application
 window.addEventListener('DOMContentLoaded', () => {
     log.info('[MAIN] DOM Content Loaded');
     init();
+
+    // Initialize audio controls after a short delay
+    setTimeout(() => {
+        initAudioControls();
+    }, 500);
 });
 
 console.log('[MAIN] Main application script loaded');

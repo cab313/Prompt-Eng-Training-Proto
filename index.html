@@ -632,6 +632,25 @@
         <div id="notification-toast" class="notification-toast hidden">
             <div class="toast-content"></div>
         </div>
+
+        <!-- Audio Player -->
+        <audio id="background-music" loop preload="auto">
+            <source src="assets/audio/background-music.m4a" type="audio/mp4">
+            <source src="assets/audio/background-music.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+
+        <!-- Audio Controls -->
+        <div id="audio-controls" class="audio-control-panel">
+            <button id="audio-toggle" class="audio-toggle-btn" title="Toggle Music">
+                <span id="audio-icon">🔇</span>
+            </button>
+            <div id="audio-volume-section" class="audio-volume-section hidden">
+                <input type="range" id="volume-slider" min="0" max="100" value="50" class="volume-slider">
+                <span id="volume-percentage">50%</span>
+            </div>
+            <button id="audio-expand" class="audio-expand-btn" title="Show Controls">▼</button>
+        </div>
     </div>
 
     <!-- JavaScript Modules -->
